@@ -3,11 +3,11 @@ package com.atguigu.bigdata.spark.core.operator
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
-object Spark17_RDD_Operator5 {
+object FlatMapDemo {
   def main(args: Array[String]): Unit = {
     // todo : Spark 创建运行环境
     val conf: SparkConf = new SparkConf()
-      .setAppName("Spark17_RDD_Operator5")
+      .setAppName("FlatMapDemo")
       .setMaster("local[*]")
     val sc: SparkContext = new SparkContext(conf)
 

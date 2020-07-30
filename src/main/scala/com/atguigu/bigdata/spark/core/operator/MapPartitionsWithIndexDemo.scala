@@ -3,15 +3,15 @@ package com.atguigu.bigdata.spark.core.operator
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
-object Spark13_RDD_Operator3 {
+object MapPartitionsWithIndexDemo {
   def main(args: Array[String]): Unit = {
     // todo : Spark 创建运行环境
     val conf: SparkConf = new SparkConf()
-      .setAppName("Spark13_RDD_Operator3")
+      .setAppName("mapPartitionsWithIndex")
       .setMaster("local[*]")
     val sc: SparkContext = new SparkContext(conf)
 
-    val dataRDD: RDD[Int] = sc.makeRDD(List(1, 2, 3, 4), 2)
+    val dataRDD: RDD[Int] = sc.makeRDD(List(1, 4, 3, 2, 5, 6), 3)
 
     // TODO : mapPartitions
     // 以分区为单位进行计算，类似于批处理，和 map 算子类似
@@ -23,17 +23,34 @@ object Spark13_RDD_Operator3 {
     // 内存资源足够时，推荐使用 mapPartitions 提高效率
     // 否则使用 map 算子处理，完成比完美更重要!!~~!!
 
-    val rdd: RDD[Int] = dataRDD.mapPartitions(iter => {
-      // iter.map(_ * 2)
+    // TODO 获取每个分区的最大值并标明是哪个分区
+//    val rdd: RDD[String] = dataRDD.mapPartitionsWithIndex(
+//      (index, iter) => {
+//        List("分区[" + index + "]的最大元素是: " + iter.max).iterator
+//      }
+//    )
 
-      // iter.filter(_ % 2 ==0)
+    // TODO 获取第二个分区的数据 索引从 0 开始
+//    val resultRDD = dataRDD.mapPartitionsWithIndex(
+//      (index, iter) => {
+//        iter.map(ele => (index, ele)).filter(a => a._1 == 1)
+//      }
+//
+    val resultRDD = dataRDD.mapPartitionsWithIndex(
+      (index, iter) => {
+        if (index == 1){
+          iter
+        } else {
+          Nil.iterator
+        }
+      }
+    )
 
-      // iter.foreach(println)
-      // iter
 
-      List(iter.length).iterator
-    })
-    println(rdd.collect.mkString(","))
+
+
+    // println(rdd.collect.mkString(","))
+    resultRDD.collect.foreach(println)
 
     sc.stop()
   }
