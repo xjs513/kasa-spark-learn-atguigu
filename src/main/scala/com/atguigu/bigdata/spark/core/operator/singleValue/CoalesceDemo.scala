@@ -1,7 +1,7 @@
-package com.atguigu.bigdata.spark.core.operator
+package com.atguigu.bigdata.spark.core.operator.singleValue
 
-import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkConf, SparkContext}
 
 object CoalesceDemo {
   def main(args: Array[String]): Unit = {

@@ -1,4 +1,4 @@
-package com.atguigu.bigdata.spark.core.operator
+package com.atguigu.bigdata.spark.core.operator.singleValue
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
@@ -21,7 +21,7 @@ object CoalesceDemo2 {
 
     // 也可以用 repartition 算子，其实就是调用 coalesce 算子， shuffle 默认设置为 true
 
-//    val coalesceRDD = dataRDD.coalesce(2, false)
+    // val coalesceRDD = dataRDD.coalesce(2, false)
 
     val repartitionRDD = dataRDD.repartition(2)
 
