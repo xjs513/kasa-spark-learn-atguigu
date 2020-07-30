@@ -13,3 +13,10 @@ https://www.bilibili.com/video/BV1WJ411d7ci
 1. 采样算子 sample
 2. 架构原理 结合 yarn
 3. Partitioner
+
+
+# 进度：
+P41[2020-07-30] => 
+P52[2020-07-30] => 
+P71[2020-07-30] => 
+P78[2020-07-31] => 

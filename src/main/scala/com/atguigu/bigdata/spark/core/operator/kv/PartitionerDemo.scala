@@ -7,7 +7,7 @@ object PartitionerDemo {
   def main(args: Array[String]): Unit = {
     // todo : Spark 创建运行环境
     val conf: SparkConf = new SparkConf()
-      .setAppName("MapTest")
+      .setAppName("PartitionerDemo")
       .setMaster("local[*]")
     val sc: SparkContext = new SparkContext(conf)
 
@@ -30,26 +30,29 @@ object PartitionerDemo {
         )
       }
     )
-    rdd2.filter(_._1==1).foreach(println)
+    // rdd2.filter(_._1==1).foreach(println)
+    println(rdd2.partitions.length)
+    rdd2.collect.foreach(println)
 
     sc.stop()
   }
 
-}
+  // TODO : 自定义分区器
+  // 1. 继承抽象类 Partitioner
+  // 2. 重写抽象方法
+  class MyPartitioner(num:Int) extends Partitioner{
 
-// TODO : 自定义分区器
-// 1. 继承抽象类 Partitioner
-// 2. 重写抽象方法
-class MyPartitioner(num:Int) extends Partitioner{
+    // 获取分区数量
+    override def numPartitions: Int = num
 
-  // 获取分区数量
-  override def numPartitions: Int = num
-
-  // 根据key决定数据归属的分区编号
-  override def getPartition(key: Any): Int = {
-    key match {
-      case "nba" => 0
-      case   _   => 1
+    // 根据key决定数据归属的分区编号
+    override def getPartition(key: Any): Int = {
+      key match {
+        case "nba" => 0
+        case   _   => 1
+      }
     }
   }
+
 }
+

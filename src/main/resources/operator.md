@@ -24,10 +24,15 @@
 16. subtract     差集
 17. zip          拉链
 
-#### KV-转换算子
+#### KV-转换算子 
+ > 洗牌操作一定会在磁盘落地
+ > 一个分区对应一个 task ，
+ > 如果上下游两个 task 无需等待，
+ > 则可以合并成一个task
+ > 如果有 洗牌 过程，则必须要等待，则 task 不能合并成一个任务
 18. partitionBy
-19. reduceByKey
-20.	groupByKey
+19. reduceByKey  分区内的预聚合功能  ==Combiner==
+20.	groupByKey  19 20 两个算子的区别 https://www.bilibili.com/video/BV1eC4y1a7UH?p=72
 21.	aggregateByKey
 22.	foldByKey
 23.	combineByKey
