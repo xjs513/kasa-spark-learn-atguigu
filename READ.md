@@ -12,3 +12,4 @@ https://www.bilibili.com/video/BV1WJ411d7ci
 ## 需要复习的部分
 1. 采样算子 sample
 2. 架构原理 结合 yarn
+3. Partitioner
