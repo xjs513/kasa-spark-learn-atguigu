@@ -5,11 +5,10 @@ import com.atguigu.summer.framework.core.TController
 
 class HotCategoryAnalysisTop10Controller extends TController{
 
-  private val totCategoryAnalysisTop10Service = new HotCategoryAnalysisTop10Service
+  private val hotCategoryAnalysisTop10Service = new HotCategoryAnalysisTop10Service
 
   override def execute(): Unit = {
-//    val result: Array[(String, (Int, Int, Int))] =
-      totCategoryAnalysisTop10Service.analysis()
-//    result.foreach(println)
+    val result = hotCategoryAnalysisTop10Service.analysis()
+    result.foreach(println)
   }
 }
