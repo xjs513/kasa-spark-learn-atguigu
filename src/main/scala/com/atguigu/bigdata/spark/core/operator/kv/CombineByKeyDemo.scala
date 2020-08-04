@@ -25,7 +25,7 @@ object CombineByKeyDemo {
 
     // TODO : combineByKey
     // 参数列表中的参数为:
-    //      createCombiner: V => C,       表示第一个值的转换结构
+    //      createCombiner: V => C,       表示值的转换结构
     //      mergeValue: (C, V) => C,      表示分区内的计算规则
     //      mergeCombiners: (C, C) => C,  表示分区间的计算规则
 

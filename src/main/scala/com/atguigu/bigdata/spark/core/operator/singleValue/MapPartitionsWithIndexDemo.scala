@@ -1,5 +1,6 @@
 package com.atguigu.bigdata.spark.core.operator.singleValue
 
+import com.atguigu.bigdata.spark.core.operator.action.User
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -39,7 +40,8 @@ object MapPartitionsWithIndexDemo {
     val resultRDD = dataRDD.mapPartitionsWithIndex(
       (index, iter) => {
         if (index == 1){
-          iter
+          //iter
+          List(new User("123", 123)).iterator
         } else {
           Nil.iterator
         }
