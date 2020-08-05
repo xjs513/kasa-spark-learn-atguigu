@@ -20,7 +20,15 @@ package object bean {
 
     override def add(hc: HotCategory): Unit = {
       val category: HotCategory = hcMap.getOrElse(hc.categoryId, HotCategory(hc.categoryId, 0, 0, 0))
-      hcMap.update(hc.categoryId, HotCategory(hc.categoryId, hc.clickCount + category.clickCount, hc.orderCount + category.orderCount, hc.payCount + category.payCount))
+      hcMap.update(
+        hc.categoryId,
+        HotCategory(
+          hc.categoryId,
+          hc.clickCount + category.clickCount,
+          hc.orderCount + category.orderCount,
+          hc.payCount + category.payCount
+        )
+      )
     }
 
     override def merge(other: AccumulatorV2[HotCategory, mutable.Map[String, HotCategory]]): Unit = {
@@ -29,7 +37,12 @@ package object bean {
       hcMap =  map1.foldLeft(map2)(
         (map, kv) => {
           val category: HotCategory = map.getOrElse(kv._1, HotCategory(kv._1, 0, 0, 0))
-          map(kv._1) = HotCategory(kv._1, kv._2.clickCount + category.clickCount, kv._2.orderCount + category.orderCount, kv._2.payCount + category.payCount)
+          map(kv._1) = HotCategory(
+            kv._1,
+            kv._2.clickCount + category.clickCount,
+            kv._2.orderCount + category.orderCount,
+            kv._2.payCount + category.payCount
+          )
           map
         }
       )

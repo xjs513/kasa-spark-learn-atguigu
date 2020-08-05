@@ -279,26 +279,28 @@ class HotCategoryAnalysisTop10Service extends TService{
     */
   override def analysis() = {
     // TODO : 读取日志数据
-    val actionRDD: RDD[String] = hotCategoryAnalysisTop10Dao.readFile("input/user_visit_action.csv")
+    val actionRDD: RDD[String] = hotCategoryAnalysisTop10Dao.readFile("input/user_visit_action.txt")
 
     // TODO : 对品类进行点击统计 (category, clickCount)
     val flatMapRDD: RDD[(String, HotCategory)] = actionRDD.flatMap(
       (action: String) => {
-        val elements: Array[String] = action.split(",")
+        val elements: Array[String] = action.split("_")
         if (elements(6) != "-1") {
           // 说明这是点击事件
           List((elements(6),HotCategory(elements(6), 1, 0, 0)))
-        } else if (elements(8) != "") {
+        } else if (elements(8) != "null") {
           // 说明这是下单事件
-          elements(8).split("-").map(id => (id, HotCategory(id, 0, 1, 0)))
-        } else if (elements(10) != "") {
+          elements(8).split(",").map(id => (id, HotCategory(id, 0, 1, 0)))
+        } else if (elements(10) != "null") {
           // 说明这是支付事件
-          elements(10).split("-").map(id => (id, HotCategory(id, 0, 0, 1)))
+          elements(10).split(",").map(id => (id, HotCategory(id, 0, 0, 1)))
         } else {
           Nil
         }
       }
     )
+
+    // TODO : 使用累加器对数据进行聚合
 
     // 1. 创建自定义累加器
     val accumulator = new HotCategoryAccumulator
@@ -316,6 +318,24 @@ class HotCategoryAnalysisTop10Service extends TService{
     // 4. 获取累加器的值
     val value: mutable.Map[String, HotCategory] = accumulator.value
 
-    value
+    val iterable: mutable.Iterable[HotCategory] = value.map(_._2)
+
+    value.map(_._2).toList.sortWith{
+      (leftHC, rightHC) => {
+        if (leftHC.clickCount > rightHC.clickCount) {
+          true
+        } else if (leftHC.clickCount == rightHC.clickCount){
+          if (leftHC.orderCount > rightHC.orderCount) {
+            true
+          } else if (leftHC.orderCount == rightHC.orderCount){
+            leftHC.payCount > rightHC.payCount
+          } else {
+            false
+          }
+        } else {
+          false
+        }
+      }
+    }.take(10)
   }
 }
