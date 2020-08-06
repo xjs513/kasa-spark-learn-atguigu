@@ -10,7 +10,7 @@ object SparkSQL06_Test {
   def main(args: Array[String]): Unit = {
     // TODO : 创建运行上下文
     val conf: SparkConf = new SparkConf().setMaster("local[*]")
-      .setAppName("SparkSQL05_Test")
+      .setAppName("SparkSQL06_Test")
     val spark: SparkSession = SparkSession.builder().config(conf).getOrCreate()
     // TODO : 导入隐式转换 这里的 spark 是刚创建的环境对象 必须用 val 声明
     // import spark.implicits._
