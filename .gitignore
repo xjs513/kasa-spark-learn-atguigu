@@ -2,3 +2,4 @@
 *.iml
 data/output
 target
+src/main/resources/*.xml

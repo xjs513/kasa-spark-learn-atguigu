@@ -10,7 +10,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 object SparkSQL02_Test {
   def main(args: Array[String]): Unit = {
     // TODO : 创建运行上下文
-    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkSQL01_Test")
+    val conf: SparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkSQL02_Test")
     val spark: SparkSession = SparkSession.builder().config(conf).getOrCreate()
     // TODO : 导入隐式转换 这里的 spark 是刚创建的环境对象 必须用 val 声明
     import spark.implicits._
@@ -26,6 +26,7 @@ object SparkSQL02_Test {
     // TODO : SparkSQL 封装的对象提供了大量的方法进行数据处理，类似 RDD 的算子
     // val resultDS: Dataset[User] = userDS.map(user => {user.name = "name : " + user.name; user})
     userDS.createOrReplaceTempView("user")
+    // TODO : 自定义 UDF 函数
     spark.udf.register("addPrefixString", (x:String, y:String) => y+x)
 
     val frame: DataFrame = spark.sql("select id + 1 as id, addPrefixString(name, 'ddd') as fullName, age, city from user")
@@ -36,4 +37,5 @@ object SparkSQL02_Test {
     // userDS.printSchema()
     spark.stop()
   }
+  case class User(id:Int, var name:String, age:Int)
 }

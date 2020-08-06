@@ -15,7 +15,13 @@ https://www.bilibili.com/video/BV1WJ411d7ci
 3. Partitioner
 
 
+## 主流版本  新版本肯定更好
+Spark-2.4.5
+Hive-3.1.2
+Hadoop-3
+
+
 # 进度：
 P-103 [2020-08-03]
 P-136 [2020-08-05]
-P-160 [2020-08-06]    
+P-171 [2020-08-06]    
